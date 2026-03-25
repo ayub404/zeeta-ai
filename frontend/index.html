@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zeeta — AI Supply Chain Intelligence</title>
+<link rel="stylesheet" href="css/styles.css"/>
+<style>
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,229,180,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(61,142,240,0.04) 0%, transparent 50%);
+  pointer-events: none; z-index: 0;
+}
+@keyframes shimmer { 0%{background-position:-200% center}100%{background-position:200% center} }
+
+.hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 24px 80px; text-align: center; position: relative; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-dim); border: 1px solid var(--accent-border); padding: 6px 14px; border-radius: 100px; margin-bottom: 28px; }
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 1.5s infinite; }
+.hero-badge-text { font-size: 12px; color: var(--accent); font-family: var(--mono); letter-spacing: 0.5px; }
+.hero-title { font-size: clamp(42px, 6vw, 78px); font-weight: 900; line-height: 1.05; letter-spacing: -2px; margin-bottom: 24px; max-width: 860px; }
+.hero-title span { background: linear-gradient(135deg, var(--accent) 0%, #00b4d8 50%, var(--accent) 100%); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite; }
+.hero-sub { font-size: 18px; color: var(--muted); line-height: 1.7; max-width: 540px; margin: 0 auto 40px; }
+.hero-actions { display: flex; align-items: center; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--accent); color: #06080b; border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,229,180,0.22); }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border2); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
+.hero-stats { display: flex; align-items: center; gap: 40px; margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); flex-wrap: wrap; justify-content: center; }
+.hero-stat-val { font-size: 26px; font-weight: 900; color: var(--accent); letter-spacing: -1px; }
+.hero-stat-lbl { font-size: 12px; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
+.hero-divider  { width: 1px; height: 36px; background: var(--border); }
+
+.features-section { padding: 90px 48px; max-width: 1140px; margin: 0 auto; }
+.section-badge { font-size: 12px; color: var(--accent); font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 14px; }
+.section-title { font-size: clamp(30px,4vw,46px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 14px; }
+.section-sub   { font-size: 16px; color: var(--muted); max-width: 480px; line-height: 1.6; }
+.features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 56px; }
+.feature-card  { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--rl); padding: 26px; transition: border-color 0.2s, transform 0.2s; }
+.feature-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.feature-icon  { font-size: 24px; margin-bottom: 16px; }
+.feature-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
+.feature-desc  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+.cta-section { padding: 90px 48px; text-align: center; max-width: 740px; margin: 0 auto; }
+.cta-title { font-size: clamp(32px,5vw,52px); font-weight: 900; letter-spacing: -2px; margin-bottom: 18px; }
+.cta-sub   { font-size: 16px; color: var(--muted); margin-bottom: 36px; line-height: 1.6; }
+
+footer { border-top: 1px solid var(--border); padding: 28px 48px; display: flex; align-items: center; justify-content: space-between; }
+.footer-logo { font-size: 16px; font-weight: 900; color: var(--accent); }
+.footer-copy { font-size: 12px; color: var(--muted2); }
+</style>
+</head>
+<body>
+
+<div id="loading-bar"></div>
+
+<nav class="landing-nav">
+  <div class="nav-logo">Zeeta</div>
+  <div class="nav-links">
+    <span class="nav-link" onclick="window.location.href='login.html'">Sign in</span>
+  </div>
+  <button class="nav-cta" onclick="window.location.href='signup.html'">Get started free</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge anim-1">
+    <div class="hero-badge-dot"></div>
+    <span class="hero-badge-text">AI-Powered · Live Data · Zero Guesswork</span>
+  </div>
+  <h1 class="hero-title anim-2">
+    Your supply chain<br><span>decides itself</span>
+  </h1>
+  <p class="hero-sub anim-3">
+    Zeeta predicts disruptions before they happen and tells you exactly what to do — reroute, split, or switch — saving time and millions.
+  </p>
+  <div class="hero-actions anim-4">
+    <button class="btn-primary" onclick="window.location.href='signup.html'">Start for free →</button>
+    <button class="btn-ghost"   onclick="window.location.href='login.html'">Sign in to dashboard</button>
+  </div>
+  <div class="hero-stats anim-5">
+    <div><div class="hero-stat-val">$184K</div><div class="hero-stat-lbl">Avg monthly savings</div></div>
+    <div class="hero-divider"></div>
+    <div><div class="hero-stat-val">9×</div><div class="hero-stat-lbl">Faster decisions</div></div>
+    <div class="hero-divider"></div>
+    <div><div class="hero-stat-val">94%</div><div class="hero-stat-lbl">Disruption accuracy</div></div>
+    <div class="hero-divider"></div>
+    <div><div class="hero-stat-val">Real-time</div><div class="hero-stat-lbl">Weather + geo data</div></div>
+  </div>
+</section>
+
+<section class="features-section">
+  <div class="section-badge">Why Zeeta</div>
+  <h2 class="section-title">Not a dashboard.<br>A decision engine.</h2>
+  <p class="section-sub">Other tools show you data. Zeeta tells you what to do about it.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Real-time disruption detection</div>
+      <div class="feature-desc">Live feeds from weather APIs, port congestion data, and geopolitical news — processed the moment things change.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🧠</div>
+      <div class="feature-title">AI decision recommendations</div>
+      <div class="feature-desc">Zeeta doesn't just alert you. It says "reroute via Suez" or "split 30% to air freight" with full confidence scores.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Risk scoring per shipment</div>
+      <div class="feature-desc">Every shipment gets a live risk score that updates as conditions change — weather, port status, carrier reliability.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <div class="feature-title">Global port intelligence</div>
+      <div class="feature-desc">Track 8 major ports in real time. Know congestion levels and dwell times before your cargo arrives.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💸</div>
+      <div class="feature-title">Cost vs time optimization</div>
+      <div class="feature-desc">Every recommendation shows cost impact and time saved so you make the right tradeoff — not just the fastest one.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔗</div>
+      <div class="feature-title">ERP integration ready</div>
+      <div class="feature-desc">Connects to SAP, Oracle, and major freight platforms. Decisions flow into your existing workflows.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">Ready to stop reacting<br>and start deciding?</h2>
+  <p class="cta-sub">Join companies that use Zeeta to protect their supply chains.</p>
+  <button class="btn-primary" style="font-size:16px;padding:16px 36px;" onclick="window.location.href='signup.html'">Get started for free →</button>
+</section>
+
+<footer>
+  <div class="footer-logo">Zeeta</div>
+  <div class="footer-copy">© 2026 Zeeta. Supply chain intelligence.</div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Redirect to dashboard if already logged in
+  redirectIfLoggedIn();
+</script>
+</body>
+</html>

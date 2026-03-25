@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zeeta — Create account</title>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<div id="loading-bar"></div>
+
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="auth-logo">Zeeta</div>
+    <div class="auth-tagline">Supply Intelligence</div>
+
+    <h1 class="auth-title">Create your account</h1>
+    <p class="auth-subtitle">Start protecting your supply chain — free</p>
+
+    <div class="error-box"   id="error-box"></div>
+    <div class="success-box" id="success-box"></div>
+
+    <div class="form-group">
+      <label class="form-label">Full name</label>
+      <input class="form-input" id="inp-name" type="text" placeholder="John Smith" autocomplete="name"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Work email</label>
+      <input class="form-input" id="inp-email" type="email" placeholder="john@company.com" autocomplete="email"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password <span style="color:var(--muted2);font-weight:400;">(min 8 chars)</span></label>
+      <input class="form-input" id="inp-pass" type="password" placeholder="Create a password" autocomplete="new-password"
+             onkeydown="if(event.key==='Enter') doSignup()"/>
+    </div>
+
+    <button class="auth-btn" id="signup-btn" onclick="doSignup()">
+      <span id="signup-btn-text">Create free account</span>
+    </button>
+
+    <div class="auth-switch">
+      Already have an account? <a href="login.html">Sign in</a>
+    </div>
+    <div class="auth-back">
+      <a href="index.html">← Back to homepage</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  redirectIfLoggedIn();
+
+  async function doSignup() {
+    hideError('error-box');
+
+    const name  = document.getElementById('inp-name').value.trim();
+    const email = document.getElementById('inp-email').value.trim();
+    const pass  = document.getElementById('inp-pass').value;
+
+    // Client-side validation
+    if (!name)  { showError('error-box', 'Please enter your full name.'); return; }
+    if (!email) { showError('error-box', 'Please enter your email address.'); return; }
+    if (!email.includes('@') || !email.includes('.')) {
+      showError('error-box', 'Please enter a valid email (e.g. you@company.com).');
+      return;
+    }
+    if (pass.length < 8) {
+      showError('error-box', 'Password must be at least 8 characters.');
+      return;
+    }
+
+    setLoading('signup-btn', 'signup-btn-text', true, 'Create free account');
+
+    const r = await apiRegister(email, pass, name);
+
+    setLoading('signup-btn', 'signup-btn-text', false, 'Create free account');
+
+    if (!r.ok) {
+      showError('error-box', extractError(r.data));
+      return;
+    }
+
+    saveSession(r.data);
+    showSuccess('success-box', 'Account created! Redirecting to dashboard...');
+
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 800);
+  }
+</script>
+</body>
+</html>

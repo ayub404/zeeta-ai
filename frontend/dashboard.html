@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zeeta — Dashboard</title>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<div id="loading-bar"></div>
+
+<div class="dash-app">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">Zeeta</div>
+      <div class="sidebar-logo-sub">Supply Intelligence</div>
+    </div>
+
+    <div class="sidebar-section">Main</div>
+    <div class="nav-item active">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="1.5"/>
+        <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="1.5"/>
+        <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="1.5"/>
+        <rect x="14" y="14" width="7" height="7" rx="1" stroke-width="1.5"/>
+      </svg>
+      Overview
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M9 17l-4-4 4-4M15 7l4 4-4 4" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Shipments
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M12 9v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Risk Alerts
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Decisions
+    </div>
+
+    <div class="sidebar-section">Analytics</div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Reports
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-card" onclick="logout()">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div>
+          <div class="user-name" id="user-name">Loading...</div>
+          <div class="user-role">Click to sign out</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="dash-main">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title">Operations Overview</div>
+        <div class="topbar-sub" id="last-updated">Connecting to live data...</div>
+      </div>
+      <div class="topbar-right">
+        <span class="badge-danger pulse" id="alert-badge">— alerts</span>
+        <button class="refresh-btn" onclick="loadDashboard()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card k-green">
+          <div class="kpi-label">Total Shipments</div>
+          <div class="kpi-value" id="kpi-total">—</div>
+          <div class="kpi-sub">from database</div>
+        </div>
+        <div class="kpi-card k-blue">
+          <div class="kpi-label">On Time</div>
+          <div class="kpi-value" id="kpi-ontime">—</div>
+          <div class="kpi-sub">on schedule</div>
+        </div>
+        <div class="kpi-card k-warn">
+          <div class="kpi-label">Delayed</div>
+          <div class="kpi-value" id="kpi-delayed">—</div>
+          <div class="kpi-sub">need attention</div>
+        </div>
+        <div class="kpi-card k-danger">
+          <div class="kpi-label">Critical Risk</div>
+          <div class="kpi-value" id="kpi-critical">—</div>
+          <div class="kpi-sub">AI decisions ready</div>
+        </div>
+      </div>
+
+      <!-- Shipments + Alerts -->
+      <div class="grid-2">
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Active Shipments</span>
+            <span class="panel-meta" id="shipment-count">loading...</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Route</th>
+                <th>Carrier</th>
+                <th>Status</th>
+                <th>Risk</th>
+                <th>ETA</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="shipments-tbody">
+              <tr>
+                <td colspan="6" style="text-align:center;color:var(--muted);padding:32px;">
+                  Loading shipments...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">Live Alerts</span>
+            <span class="badge-danger" id="alert-badge-2" style="font-size:10px;padding:2px 8px;">—</span>
+          </div>
+          <div id="alerts-list">
+            <div style="padding:24px;text-align:center;color:var(--muted);font-size:13px;">
+              Loading alerts...
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Savings bar -->
+      <div class="savings-bar">
+        <div>
+          <div class="savings-label">Total savings this month</div>
+          <div class="savings-val" id="kpi-savings">$—</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="savings-stat-val" id="kpi-disruptions" style="color:var(--accent);">—</div>
+          <div class="savings-stat-lbl">disruptions avoided</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="savings-stat-val" id="kpi-risk" style="color:var(--warn);">—</div>
+          <div class="savings-stat-lbl">avg risk score</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="savings-stat-val" id="kpi-live-alerts" style="color:var(--blue);">—</div>
+          <div class="savings-stat-lbl">live alerts</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ── Decision Modal ── -->
+<div class="modal-bg" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">AI Decision</div>
+        <div class="modal-sub"   id="modal-sub">Zeeta decision engine</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-action-box">
+      <div class="modal-action-label">Recommended action</div>
+      <div class="modal-action-text" id="modal-action">Analyzing...</div>
+    </div>
+    <div class="modal-reason" id="modal-reason">—</div>
+    <div class="modal-impacts">
+      <div class="modal-impact">
+        <div class="modal-impact-label">Cost impact</div>
+        <div class="modal-impact-val" id="modal-cost" style="color:var(--warn);">—</div>
+      </div>
+      <div class="modal-impact">
+        <div class="modal-impact-label">Time saved</div>
+        <div class="modal-impact-val" id="modal-time" style="color:var(--accent);">—</div>
+      </div>
+      <div class="modal-impact">
+        <div class="modal-impact-label">Confidence</div>
+        <div class="modal-impact-val" id="modal-conf-val" style="color:var(--blue);">—</div>
+      </div>
+    </div>
+    <div class="conf-section">
+      <div class="conf-header">
+        <span>AI confidence</span>
+        <span id="modal-conf-pct">—</span>
+      </div>
+      <div class="conf-track">
+        <div class="conf-fill" id="modal-conf-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-apply"   id="modal-apply-btn" onclick="applyDecision()">Apply this decision</button>
+      <button class="modal-dismiss" onclick="closeModal()">Dismiss</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+  // Close modal when clicking backdrop
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Boot
+  initDashboard();
+</script>
+</body>
+</html>
